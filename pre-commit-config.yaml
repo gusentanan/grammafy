@@ -1,0 +1,15 @@
+repos:
+  - repo: local # Specifies that the repository is local (not remote).
+    hooks:
+      - id: flutter-format
+        name: Flutter Format
+        entry: dart format . # Command to execute for formatting Dart files.
+        language: system # Specifies the language environment for executing the hook.
+        types: [dart] # Specifies the file types to which this hook applies.
+        pass_filenames: false # Indicates whether filenames should be passed to the hook
+      - id: flutter-analyze
+        name: Flutter Analyze
+        entry: flutter analyze # Command to execute for analyzing Flutter code.
+        language: system
+        types: [dart]
+        pass_filenames: false
