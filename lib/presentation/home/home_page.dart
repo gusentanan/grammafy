@@ -17,6 +17,8 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+  bool initialState = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,28 +32,43 @@ class HomePageState extends State<HomePage> {
                     color: BaseColors.primaryColor.withOpacity(0.5)))),
       ),
       body: Container(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              'assets/images/logo.svg',
-              width: 78.w,
-              height: 140.h,
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Write a text so I can help you to make it better!',
-              textAlign: TextAlign.center,
-              style: BaseTextStyle.displayLarge.copyWith(
-                color: BaseColors.neutralColor,
-                fontSize: 72.sp,
-              ),
-            )
-          ],
+          padding: const EdgeInsets.all(20),
+          child: initialState
+              ? _initialView()
+              : SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _bubbleQuestion(),
+                      SizedBox(height: 32.h),
+                      _answerComponent(),
+                    ],
+                  ),
+                )),
+    );
+  }
+
+  Widget _initialView() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SvgPicture.asset(
+          'assets/images/logo.svg',
+          width: 78.w,
+          height: 140.h,
         ),
-      ),
+        const SizedBox(height: 20),
+        Text(
+          'Write a text so I can help you to make it better!',
+          textAlign: TextAlign.center,
+          style: BaseTextStyle.displayLarge.copyWith(
+            color: BaseColors.neutralColor,
+            fontSize: 72.sp,
+          ),
+        )
+      ],
     );
   }
 
@@ -104,6 +121,66 @@ class HomePageState extends State<HomePage> {
               const ToneChip(
                 subjectName: 'Friendly',
               ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _bubbleQuestion() {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(
+            color: BaseColors.dividerMuted,
+            width: 1.0,
+          )),
+      padding: const EdgeInsets.all(12),
+      child: Text(
+        'Please correct this grammar: Hello me name is Bagus',
+        style: BaseTextStyle.bodyLarge
+            .copyWith(color: BaseColors.neutralColor, fontSize: 42.sp),
+      ),
+    );
+  }
+
+  Widget _answerComponent() {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Here's the corrected grammar: \nHello my name is Bagus",
+            style: BaseTextStyle.bodyLarge
+                .copyWith(color: BaseColors.neutralColor, fontSize: 48.sp),
+          ),
+          SizedBox(height: 32.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: SvgPicture.asset(
+                  'assets/images/logo.svg',
+                  width: 60.w,
+                  height: 60.h,
+                ),
+              ),
+              IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.copy_all_outlined,
+                    color: BaseColors.pmaBold,
+                  )),
+              const Spacer(),
+              Text(
+                'Grammafy can make mistakes.\nPlease double check',
+                style: BaseTextStyle.bodySmall
+                    .copyWith(color: BaseColors.neutralColor, fontSize: 30.sp),
+              )
             ],
           )
         ],
