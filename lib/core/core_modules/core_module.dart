@@ -22,13 +22,9 @@ abstract class RegisterModule {
   @lazySingleton
   Dio dio(Env env) {
     Dio dio = Dio();
-    BaseOptions options = BaseOptions(
-      connectTimeout: const Duration(seconds: 12),
-      receiveTimeout: const Duration(seconds: 12),
-      sendTimeout: const Duration(seconds: 6),
-      headers: null,
-      baseUrl: env.baseUrl,
-    );
+    BaseOptions options = BaseOptions(headers: {
+      'Content-Type': 'application/json',
+    }, baseUrl: env.baseUrl, persistentConnection: true);
     dio.options = options;
 
     return dio;
