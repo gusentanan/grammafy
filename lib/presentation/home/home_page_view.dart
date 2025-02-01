@@ -248,7 +248,7 @@ class _HomePageState extends State<HomePageView> {
                 const SizedBox(width: 10),
                 IconButton(
                   onPressed: () async {
-                    if (questionTextController.text == '') {
+                    if (questionTextController.text.isEmpty) {
                       ClipboardData? data =
                           await Clipboard.getData(Clipboard.kTextPlain);
                       if (data != null) {
@@ -257,7 +257,8 @@ class _HomePageState extends State<HomePageView> {
                         });
                       }
                     } else {
-                      if (questionTextController.text == '') {
+                      if (questionTextController.text.isEmpty ||
+                          questionTextController.text.trim().isEmpty) {
                         SnackbarWidget.show(
                           context: context,
                           type: SnackbarType.ERROR,
@@ -272,7 +273,7 @@ class _HomePageState extends State<HomePageView> {
                     }
                   },
                   icon: Icon(
-                    questionTextController.text == ''
+                    questionTextController.text.isEmpty
                         ? Icons.paste_outlined
                         : Icons.arrow_upward,
                     color: BaseColors.pmaBold,
