@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grammafy/themes/base_text_style.dart';
 import 'package:grammafy/themes/colors/color_swatch.dart';
 import 'package:grammafy/widgets/animation/animated_visibility.dart';
