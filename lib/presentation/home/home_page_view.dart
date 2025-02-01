@@ -287,16 +287,16 @@ class _HomePageState extends State<HomePageView> {
                 ),
               ],
             ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                const ToneChip(subjectName: 'Formal'),
-                SizedBox(width: 20.w),
-                const ToneChip(subjectName: 'Semi-formal'),
-                SizedBox(width: 20.w),
-                const ToneChip(subjectName: 'Friendly'),
-              ],
-            ),
+            // const SizedBox(height: 10),
+            // Row(
+            //   children: [
+            //     const ToneChip(subjectName: 'Formal'),
+            //     SizedBox(width: 20.w),
+            //     const ToneChip(subjectName: 'Semi-formal'),
+            //     SizedBox(width: 20.w),
+            //     const ToneChip(subjectName: 'Friendly'),
+            //   ],
+            // ),
           ],
         ),
       ),
