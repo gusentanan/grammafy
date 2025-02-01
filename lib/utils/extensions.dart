@@ -11,3 +11,13 @@ extension ChatResponseMapper on ChatResponseModel {
     return ChatAnswerModel(answerText: answer);
   }
 }
+
+extension TrimFirstLine on String {
+  String trimFirstLine() {
+    const String prefix = "Here's the corrected grammar:";
+    if (startsWith(prefix)) {
+      return replaceFirst(prefix, "").trimLeft();
+    }
+    return this;
+  }
+}

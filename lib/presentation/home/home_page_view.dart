@@ -7,6 +7,7 @@ import 'package:grammafy/domain/models/chat_answer_model.dart';
 import 'package:grammafy/presentation/home/state/home_page_cubit.dart';
 import 'package:grammafy/themes/base_colors.dart';
 import 'package:grammafy/themes/base_text_style.dart';
+import 'package:grammafy/utils/extensions.dart';
 import 'package:grammafy/widgets/chip.dart';
 import 'package:grammafy/widgets/error.dart';
 import 'package:grammafy/widgets/loading.dart';
@@ -164,8 +165,8 @@ class _HomePageState extends State<HomePageView> {
             ),
             IconButton(
               onPressed: () {
-                Clipboard.setData(ClipboardData(text: answer.answerText))
-                    .then((value) {
+                String answers = answer.answerText.trimFirstLine();
+                Clipboard.setData(ClipboardData(text: answers)).then((_) {
                   SnackbarWidget.show(
                     context: context,
                     type: SnackbarType.DEFAULT,
