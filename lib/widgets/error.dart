@@ -11,19 +11,22 @@ class ErrorView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 48.w, vertical: 40.h),
+        padding: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 30.h),
         child: Row(
           children: [
             Icon(
               Icons.error_outline_outlined,
               color: BaseColors.bgError,
             ),
-            SizedBox(width: 12.w),
-            Text(
-              text,
-              style: BaseTextStyle.bodyLarge.copyWith(
-                fontSize: 48.sp,
-                color: BaseColors.bgError,
+            const SizedBox(width: 20),
+            Expanded(
+              child: Text(
+                text,
+                maxLines: 2,
+                style: BaseTextStyle.bodyLarge.copyWith(
+                  fontSize: 48.sp,
+                  color: BaseColors.bgError,
+                ),
               ),
             )
           ],

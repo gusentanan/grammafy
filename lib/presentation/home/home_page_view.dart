@@ -10,6 +10,7 @@ import 'package:grammafy/themes/base_text_style.dart';
 import 'package:grammafy/widgets/chip.dart';
 import 'package:grammafy/widgets/error.dart';
 import 'package:grammafy/widgets/loading.dart';
+import 'package:grammafy/widgets/snackbar.dart';
 import 'package:grammafy/widgets/typing_text_animated.dart';
 
 class HomePageView extends StatefulWidget {
@@ -33,6 +34,14 @@ class _HomePageState extends State<HomePageView> {
         curve: Curves.easeInOut,
       );
     });
+  }
+
+  void _sendMessage(BuildContext context, String question) {
+    setState(() {
+      _messages.add(_bubbleQuestion(question)); // Add user input
+    });
+
+    context.read<HomePageCubit>().sendQuestion(question);
   }
 
   @override
@@ -100,14 +109,6 @@ class _HomePageState extends State<HomePageView> {
     );
   }
 
-  void _sendMessage(BuildContext context, String question) {
-    setState(() {
-      _messages.add(_bubbleQuestion(question)); // Add user input
-    });
-
-    context.read<HomePageCubit>().sendQuestion(question);
-  }
-
   Widget _initialView() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 48.w),
@@ -170,7 +171,16 @@ class _HomePageState extends State<HomePageView> {
             ),
             IconButton(
               onPressed: () {
-                Clipboard.setData(ClipboardData(text: answer.answerText));
+                Clipboard.setData(ClipboardData(text: answer.answerText))
+                    .then((value) {
+                  SnackbarWidget.show(
+                    context: context,
+                    type: SnackbarType.DEFAULT,
+                    text: 'Copied to clipboard',
+                    icon: Icons.check_circle_outline,
+                    alignment: SnackbarAlignment.TOP,
+                  );
+                });
               },
               icon: Icon(Icons.copy_all_outlined, color: BaseColors.pmaBold),
             ),
@@ -219,18 +229,36 @@ class _HomePageState extends State<HomePageView> {
                       hintStyle: BaseTextStyle.displayMedium.copyWith(
                         color: BaseColors.neutralColor.withOpacity(0.6),
                       ),
+                      border: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
                       contentPadding: const EdgeInsets.symmetric(vertical: 12),
                     ),
                     onFieldSubmitted: (value) {
-                      _sendMessage(context, value);
-                      questionTextController.text = '';
+                      if (value == '') {
+                        SnackbarWidget.show(
+                          context: context,
+                          type: SnackbarType.ERROR,
+                          text: 'Please add your text first',
+                          alignment: SnackbarAlignment.TOP,
+                        );
+                      } else {
+                        _sendMessage(context, value.trim());
+                        questionTextController.text = '';
+                      }
                     },
                   ),
                 ),
                 const SizedBox(width: 10),
                 IconButton(
-                  onPressed: () {
-                    questionTextController.text = ""; // Clear input
+                  onPressed: () async {
+                    ClipboardData? data =
+                        await Clipboard.getData(Clipboard.kTextPlain);
+                    if (data != null) {
+                      setState(() {
+                        questionTextController.text = data.text ?? "";
+                      });
+                    }
                   },
                   icon: Icon(Icons.paste_outlined, color: BaseColors.pmaBold),
                   style: IconButton.styleFrom(
