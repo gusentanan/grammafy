@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:grammafy/data/network_data_sources/dto/answer/chat_response_model.dart';
 import 'package:grammafy/data/network_data_sources/dto/question/chat_model.dart';
+import 'package:grammafy/utils/constant.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
@@ -15,8 +16,7 @@ class NetworkDataSource {
   }) async {
     final chatModel = ChatModel(
       systemInstruction: const InstructionModel(
-        parts:
-            PartModel(text: "Your only purpose is fixing the English grammar."),
+        parts: PartModel(text: MODEL_INSTRUCTION),
       ),
       contents: [
         ContentModel(

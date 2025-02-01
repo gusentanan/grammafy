@@ -153,13 +153,6 @@ class _HomePageState extends State<HomePageView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Here's the corrected grammar:",
-          style: BaseTextStyle.bodyLarge.copyWith(
-            color: BaseColors.neutralColor,
-            fontSize: 48.sp,
-          ),
-        ),
         TypingText(text: answer.answerText),
         SizedBox(height: 32.h),
         Row(
