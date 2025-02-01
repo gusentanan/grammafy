@@ -8,6 +8,9 @@ import 'package:grammafy/presentation/home/state/home_page_cubit.dart';
 import 'package:grammafy/themes/base_colors.dart';
 import 'package:grammafy/themes/base_text_style.dart';
 import 'package:grammafy/widgets/chip.dart';
+import 'package:grammafy/widgets/error.dart';
+import 'package:grammafy/widgets/loading.dart';
+import 'package:grammafy/widgets/typing_text_animated.dart';
 
 class HomePageView extends StatefulWidget {
   const HomePageView({super.key});
@@ -18,8 +21,19 @@ class HomePageView extends StatefulWidget {
 
 class _HomePageState extends State<HomePageView> {
   final TextEditingController questionTextController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
   final FocusNode _focusNode = FocusNode();
   final List<Widget> _messages = [];
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,38 +55,40 @@ class _HomePageState extends State<HomePageView> {
           state.maybeWhen(
             success: (answer) {
               setState(() {
+                _scrollToBottom();
                 _messages.add(_answerComponent(answer));
               });
             },
             failure: (failure) {
               setState(() {
-                _messages.add(Center(
-                    child: Text(
-                  failure.value,
-                  style: BaseTextStyle.displayLarge
-                      .copyWith(color: BaseColors.neutralColor),
-                )));
+                _messages.add(
+                  const ErrorView(
+                      text: 'Sorry someting wrong happen! please try again.'),
+                );
               });
             },
             orElse: () {},
           );
         },
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.all(20),
-                children: _messages,
-              ),
-            ),
+            _messages.isNotEmpty
+                ? Expanded(
+                    child: ListView(
+                      controller: _scrollController,
+                      physics: const BouncingScrollPhysics(),
+                      padding: const EdgeInsets.all(20),
+                      children: _messages,
+                    ),
+                  )
+                : const SizedBox.shrink(),
             BlocBuilder<HomePageCubit, HomePageState>(
               builder: (context, state) {
                 return state.maybeWhen(
                   initial: () => _initialView(),
-                  loading: () => const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Center(child: CircularProgressIndicator()),
-                  ),
+                  loading: () => const LoadingView(),
                   orElse: () => const SizedBox.shrink(),
                 );
               },
@@ -92,9 +108,9 @@ class _HomePageState extends State<HomePageView> {
     context.read<HomePageCubit>().sendQuestion(question);
   }
 
-  //TODO: bottom overflow after displaying keyboard
   Widget _initialView() {
-    return Expanded(
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 48.w),
       child: Column(
         children: [
           SvgPicture.asset('assets/images/logo.svg',
@@ -137,13 +153,14 @@ class _HomePageState extends State<HomePageView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Here's the corrected grammar:\n${answer.answerText}",
+          "Here's the corrected grammar:",
           style: BaseTextStyle.bodyLarge.copyWith(
             color: BaseColors.neutralColor,
             fontSize: 48.sp,
           ),
         ),
-        SizedBox(height: 20.h),
+        TypingText(text: answer.answerText),
+        SizedBox(height: 32.h),
         Row(
           children: [
             Padding(
