@@ -197,7 +197,9 @@ class _HomePageState extends State<HomePageView> {
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Container(
-        height: 350.h,
+        constraints: BoxConstraints(
+          maxHeight: 550.h, // Set a max height for the container
+        ),
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.only(
@@ -207,29 +209,55 @@ class _HomePageState extends State<HomePageView> {
           color: BaseColors.bgSubtle,
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               children: [
                 Expanded(
-                  child: TextFormField(
-                    controller: questionTextController,
-                    focusNode: _focusNode,
-                    textInputAction: TextInputAction.done,
-                    style: BaseTextStyle.displayMedium.copyWith(
-                      color: BaseColors.neutralColor,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: 50.h,
+                      maxHeight: 300.h,
                     ),
-                    decoration: InputDecoration(
-                      hintText: "Chat with Grammafy",
-                      hintStyle: BaseTextStyle.displayMedium.copyWith(
-                        color: BaseColors.neutralColor.withOpacity(0.6),
+                    child: TextFormField(
+                      controller: questionTextController,
+                      focusNode: _focusNode,
+                      textInputAction: TextInputAction.newline,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null, // Allows multiline input
+                      onChanged: (value) {
+                        setState(() {});
+                      },
+                      style: BaseTextStyle.displayMedium.copyWith(
+                        color: BaseColors.neutralColor,
                       ),
-                      border: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                      decoration: InputDecoration(
+                        hintText: "Chat with Grammafy",
+                        hintStyle: BaseTextStyle.displayMedium.copyWith(
+                          color: BaseColors.neutralColor.withOpacity(0.6),
+                        ),
+                        border: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        contentPadding:
+                            const EdgeInsets.symmetric(vertical: 12),
+                      ),
                     ),
-                    onFieldSubmitted: (value) {
-                      if (value == '') {
+                  ),
+                ),
+                const SizedBox(width: 10),
+                IconButton(
+                  onPressed: () async {
+                    if (questionTextController.text == '') {
+                      ClipboardData? data =
+                          await Clipboard.getData(Clipboard.kTextPlain);
+                      if (data != null) {
+                        setState(() {
+                          questionTextController.text = data.text ?? "";
+                        });
+                      }
+                    } else {
+                      if (questionTextController.text == '') {
                         SnackbarWidget.show(
                           context: context,
                           type: SnackbarType.ERROR,
@@ -237,24 +265,18 @@ class _HomePageState extends State<HomePageView> {
                           alignment: SnackbarAlignment.TOP,
                         );
                       } else {
-                        _sendMessage(context, value.trim());
+                        _sendMessage(
+                            context, questionTextController.text.trim());
                         questionTextController.text = '';
                       }
-                    },
-                  ),
-                ),
-                const SizedBox(width: 10),
-                IconButton(
-                  onPressed: () async {
-                    ClipboardData? data =
-                        await Clipboard.getData(Clipboard.kTextPlain);
-                    if (data != null) {
-                      setState(() {
-                        questionTextController.text = data.text ?? "";
-                      });
                     }
                   },
-                  icon: Icon(Icons.paste_outlined, color: BaseColors.pmaBold),
+                  icon: Icon(
+                    questionTextController.text == ''
+                        ? Icons.paste_outlined
+                        : Icons.arrow_upward,
+                    color: BaseColors.pmaBold,
+                  ),
                   style: IconButton.styleFrom(
                     backgroundColor: BaseColors.pmaIntense,
                     shape: RoundedRectangleBorder(
@@ -264,7 +286,7 @@ class _HomePageState extends State<HomePageView> {
                 ),
               ],
             ),
-            const Spacer(),
+            const SizedBox(height: 10),
             Row(
               children: [
                 const ToneChip(subjectName: 'Formal'),
