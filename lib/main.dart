@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grammafy/core/bloc_observers/observer.dart';
@@ -25,6 +26,11 @@ void runGramamfyApp() async {
 
   await ScreenUtil.ensureScreenSize();
 
+  // lock screen orientation
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
+
   return runApp(const GrammafyApp());
 }
 
@@ -39,6 +45,7 @@ class GrammafyApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'Grammafy',
       theme: baseTheme,
+      debugShowCheckedModeBanner: false,
       routerDelegate: AutoRouterDelegate(router),
       routeInformationParser: router.defaultRouteParser(),
     );
