@@ -46,17 +46,23 @@ class _HomePageState extends State<HomePageView> {
 
   @override
   Widget build(BuildContext context) {
+    final Shader textGradient = LinearGradient(
+      colors: [
+        BaseColors.primaryColor,
+        BaseColors.primaryColor.withOpacity(0.2),
+        BaseColors.neutralColor,
+      ],
+    ).createShader(const Rect.fromLTWH(0.0, 0.0, 250.0, 60.0));
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
         centerTitle: true,
         title: RichText(
           text: TextSpan(
-            text: 'Grammafy',
-            style: BaseTextStyle.displayLarge.copyWith(
-              color: BaseColors.primaryColor.withOpacity(0.5),
-            ),
-          ),
+              text: 'Grammafy',
+              style: BaseTextStyle.displayLarge
+                  .copyWith(foreground: Paint()..shader = textGradient)),
         ),
       ),
       body: BlocListener<HomePageCubit, HomePageState>(
@@ -72,7 +78,7 @@ class _HomePageState extends State<HomePageView> {
               setState(() {
                 _messages.add(
                   const ErrorView(
-                      text: 'Sorry someting wrong happen! please try again.'),
+                      text: 'Sorry something wrong happen! please try again.'),
                 );
               });
             },
@@ -118,7 +124,7 @@ class _HomePageState extends State<HomePageView> {
               width: 78.w, height: 140.h),
           const SizedBox(height: 20),
           Text(
-            'Write a text so I can help you make it better!',
+            "Type something, and I'll help you improve it!",
             textAlign: TextAlign.center,
             style: BaseTextStyle.displayLarge.copyWith(
               color: BaseColors.neutralColor,

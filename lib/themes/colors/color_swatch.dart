@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 
 class GrammafyColorPalletes {
   static const MaterialColor greenishCyanSwatch = MaterialColor(0xff00C49A, {
-    50: Color(0xffE0F7F0), // Light greenish tint
-    100: Color(0xffB2EDE2), // Soft greenish cyan
-    200: Color(0xff80E3D4), // Pale green-cyan
-    300: Color(0xff4DD9C6), // Light green-cyan
-    400: Color(0xff26D0B8), // Mid-tone greenish cyan
-    500: Color(0xff00C49A), // Main green-cyan shade
-    600: Color(0xff00B089), // Slightly darker green-cyan
-    700: Color(0xff009B79), // Medium-dark greenish shade
-    800: Color(0xff00866A), // Dark greenish-cyan
-    900: Color(0xff00664E), // Deep green tone
+    50: Color(0xffE0F7F0),
+    100: Color(0xffB2EDE2),
+    200: Color(0xff80E3D4),
+    300: Color(0xff4DD9C6),
+    400: Color(0xff26D0B8),
+    500: Color(0xff00C49A),
+    600: Color(0xff00B089),
+    700: Color(0xff009B79),
+    800: Color(0xff00866A),
+    900: Color(0xff00664E),
   });
 
   static const MaterialColor blackSwatch = MaterialColor(0xFF111214, {
