@@ -10,10 +10,7 @@ class NetworkDataSource {
 
   NetworkDataSource(@Named('defaultDio') this._dio);
 
-  Future<ChatResponseModel> sendQuestion(
-    String question, {
-    String apiKey = 'AIzaSyA_iucsVSHX0tgDfjY6T2H5By-HRPvuEnk',
-  }) async {
+  Future<ChatResponseModel> sendQuestion(String question) async {
     final chatModel = ChatModel(
       systemInstruction: const InstructionModel(
         parts: PartModel(text: MODEL_INSTRUCTION),
@@ -29,7 +26,6 @@ class NetworkDataSource {
 
     final response = await _dio.post(
       '/v1beta/models/gemini-1.5-flash:generateContent',
-      queryParameters: {'key': apiKey},
       data: chatModel.toJson(),
     );
 

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grammafy/core/bloc_observers/observer.dart';
 import 'package:grammafy/core/injections/injection.dart';
@@ -18,8 +19,11 @@ void main() async {
 
 void runGramamfyApp() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await ScreenUtil.ensureScreenSize();
+
+  await dotenv.load();
   configureInjection();
+
+  await ScreenUtil.ensureScreenSize();
 
   return runApp(const GrammafyApp());
 }

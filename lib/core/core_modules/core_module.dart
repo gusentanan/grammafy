@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:grammafy/core/env/env.dart';
 import 'package:grammafy/core/routes/grammafy_routes.dart';
 import 'package:injectable/injectable.dart';
@@ -18,6 +19,9 @@ abstract class RegisterModule {
   @singleton
   GrammafyRoutes get appRouter => GrammafyRoutes();
 
+  @dev
+  String get apiKey => dotenv.env['GEMINI_API_KEY'] ?? '';
+
   @Named('defaultDio')
   @lazySingleton
   Dio dio(Env env) {
@@ -26,6 +30,16 @@ abstract class RegisterModule {
       'Content-Type': 'application/json',
     }, baseUrl: env.baseUrl, persistentConnection: true);
     dio.options = options;
+
+    dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (options, handler) {
+        // Add the API key as query parameter to each request if it's not already included
+        if (!options.queryParameters.containsKey('key')) {
+          options.queryParameters['key'] = apiKey;
+        }
+        return handler.next(options);
+      },
+    ));
 
     return dio;
   }

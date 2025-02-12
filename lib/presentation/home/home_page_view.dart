@@ -8,7 +8,6 @@ import 'package:grammafy/presentation/home/state/home_page_cubit.dart';
 import 'package:grammafy/themes/base_colors.dart';
 import 'package:grammafy/themes/base_text_style.dart';
 import 'package:grammafy/utils/extensions.dart';
-import 'package:grammafy/widgets/chip.dart';
 import 'package:grammafy/widgets/error.dart';
 import 'package:grammafy/widgets/loading.dart';
 import 'package:grammafy/widgets/snackbar.dart';

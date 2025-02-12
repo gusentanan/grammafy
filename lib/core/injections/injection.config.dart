@@ -22,6 +22,8 @@ import 'package:grammafy/presentation/home/state/home_page_cubit.dart' as _i11;
 import 'package:injectable/injectable.dart' as _i2;
 import 'package:logger/logger.dart' as _i5;
 
+const String _dev = 'dev';
+
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
   _i1.GetIt init({
@@ -37,6 +39,10 @@ extension GetItInjectableX on _i1.GetIt {
     gh.factory<_i3.Env>(() => _i3.Env());
     gh.singleton<_i4.GrammafyRoutes>(() => registerModule.appRouter);
     gh.lazySingleton<_i5.Logger>(() => registerModule.logger);
+    gh.factory<String>(
+      () => registerModule.apiKey,
+      registerFor: {_dev},
+    );
     gh.lazySingleton<_i6.Dio>(
       () => registerModule.dio(gh<_i3.Env>()),
       instanceName: 'defaultDio',
