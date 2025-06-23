@@ -1,18 +1,7 @@
 [![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-light.svg)](https://sonarcloud.io/summary/new_code?id=gusentanan_grammafy)
 
-# grammafy
-<table>
-  <tr>
-    <td>
-      <img src="https://github.com/user-attachments/assets/c6930055-faa5-4034-9caa-639061fd8d16" height=150 align="left"> 
-        <p> 
-   This app was a byproduct of my long weekend last month. I found myself using ChatGPT a lot to correct my messages since I'm working with foreigners, but I hated typing them out and manually selecting ChatGPT's responses. Since we don’t need a super-advanced model just for grammar correction, Gemini is more than enough—though I’m just using the free trial, which works fine for me (you should give it a try too!).
-This app lets you auto-paste your template text if you feel it’s not good enough (there’s a button for that), and once the corrected response is given, you can easily copy it. That’s all for now, lol.
-        </p>
-    </td>
-  </tr>
-</table>
-<table>
+# Grammafy
+<table> <tr> <td> <img src="https://github.com/user-attachments/assets/c6930055-faa5-4034-9caa-639061fd8d16" height="150" align="left" style="margin-right: 16px;"> <p> This app was a byproduct of my long weekend. I kept using ChatGPT to correct grammar in my messages (working with foreigners does that), but I hated copy-pasting and sifting through replies. So I built Grammafy. <br/><br/> It uses Google Gemini to correct grammar, tone, and clarity—no need to switch apps. You can auto-paste from a template, submit it, and copy the fixed result instantly. <br/><br/> That’s all for now. </p> </td> </tr> </table>
 
 <table>
   <tr>
@@ -25,16 +14,38 @@ This app lets you auto-paste your template text if you feel it’s not good enou
   </tr>
 </table>
 
+## ✨ Features
+- ✅ One-tap grammar & tone correction using Google Gemini
+- 🔁 Custom template input & quick paste button
+- 📋 Copy corrected text instantly
+- 🔒 Privacy-first: no local or external data logging
+- 🛠️ Built with Flutter & Dart
+
 ## More About
 ```
-I haven't programmed this app to collect any personal information.  
-However, since you're using your own API key,  
-**all your conversations are stored in your Google Cloud console.**  
+I haven't programmed this app to collect any personal information.
 
-On your device, no data is stored permanently,  
-and you can easily delete any local data by clearing the app's storage or uninstalling it.
+However, since you're using your own Gemini API key,  
+all your prompts and responses are processed by your Google Cloud account.
+
+On your device, no data is stored permanently.  
+You can delete all local data by clearing the app’s storage or uninstalling it
 
 ```
-More about it later .. 
+
+## 🛠 Tech Stack
+- Flutter (Dart)
+- Google Gemini GenAI
+- SonarCloud for code quality
+
+## 🧪 What's Next?
+- Tone/style selection (formal, casual, etc.)
+- Basic history & revision tracking
+- Custom prompt presets
+- Android & iOS release builds
+
+## 🤝 Contribution
+Open to PRs, issues, and feedback.
+Feel free to fork or suggest improvements!
 
 
