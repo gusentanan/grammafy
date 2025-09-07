@@ -42,6 +42,11 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+# Android build cache and CMake
+android/app/.cxx/
+android/.gradle/
+android/local.properties
+
 # FVM Version Cache
 .fvm/
 
