@@ -21,6 +21,7 @@ ChatAnswerModel _$ChatAnswerModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ChatAnswerModel {
   String get answerText => throw _privateConstructorUsedError;
+  String get originalQuestion => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +35,7 @@ abstract class $ChatAnswerModelCopyWith<$Res> {
           ChatAnswerModel value, $Res Function(ChatAnswerModel) then) =
       _$ChatAnswerModelCopyWithImpl<$Res, ChatAnswerModel>;
   @useResult
-  $Res call({String answerText});
+  $Res call({String answerText, String originalQuestion});
 }
 
 /// @nodoc
@@ -51,11 +52,16 @@ class _$ChatAnswerModelCopyWithImpl<$Res, $Val extends ChatAnswerModel>
   @override
   $Res call({
     Object? answerText = null,
+    Object? originalQuestion = null,
   }) {
     return _then(_value.copyWith(
       answerText: null == answerText
           ? _value.answerText
           : answerText // ignore: cast_nullable_to_non_nullable
+              as String,
+      originalQuestion: null == originalQuestion
+          ? _value.originalQuestion
+          : originalQuestion // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -69,7 +75,7 @@ abstract class _$$ChatAnswerModelImplCopyWith<$Res>
       __$$ChatAnswerModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String answerText});
+  $Res call({String answerText, String originalQuestion});
 }
 
 /// @nodoc
@@ -84,11 +90,16 @@ class __$$ChatAnswerModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? answerText = null,
+    Object? originalQuestion = null,
   }) {
     return _then(_$ChatAnswerModelImpl(
       answerText: null == answerText
           ? _value.answerText
           : answerText // ignore: cast_nullable_to_non_nullable
+              as String,
+      originalQuestion: null == originalQuestion
+          ? _value.originalQuestion
+          : originalQuestion // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -97,17 +108,21 @@ class __$$ChatAnswerModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ChatAnswerModelImpl implements _ChatAnswerModel {
-  const _$ChatAnswerModelImpl({required this.answerText});
+  const _$ChatAnswerModelImpl(
+      {required this.answerText, this.originalQuestion = ''});
 
   factory _$ChatAnswerModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ChatAnswerModelImplFromJson(json);
 
   @override
   final String answerText;
+  @override
+  @JsonKey()
+  final String originalQuestion;
 
   @override
   String toString() {
-    return 'ChatAnswerModel(answerText: $answerText)';
+    return 'ChatAnswerModel(answerText: $answerText, originalQuestion: $originalQuestion)';
   }
 
   @override
@@ -116,12 +131,14 @@ class _$ChatAnswerModelImpl implements _ChatAnswerModel {
         (other.runtimeType == runtimeType &&
             other is _$ChatAnswerModelImpl &&
             (identical(other.answerText, answerText) ||
-                other.answerText == answerText));
+                other.answerText == answerText) &&
+            (identical(other.originalQuestion, originalQuestion) ||
+                other.originalQuestion == originalQuestion));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, answerText);
+  int get hashCode => Object.hash(runtimeType, answerText, originalQuestion);
 
   @JsonKey(ignore: true)
   @override
@@ -139,14 +156,17 @@ class _$ChatAnswerModelImpl implements _ChatAnswerModel {
 }
 
 abstract class _ChatAnswerModel implements ChatAnswerModel {
-  const factory _ChatAnswerModel({required final String answerText}) =
-      _$ChatAnswerModelImpl;
+  const factory _ChatAnswerModel(
+      {required final String answerText,
+      final String originalQuestion}) = _$ChatAnswerModelImpl;
 
   factory _ChatAnswerModel.fromJson(Map<String, dynamic> json) =
       _$ChatAnswerModelImpl.fromJson;
 
   @override
   String get answerText;
+  @override
+  String get originalQuestion;
   @override
   @JsonKey(ignore: true)
   _$$ChatAnswerModelImplCopyWith<_$ChatAnswerModelImpl> get copyWith =>

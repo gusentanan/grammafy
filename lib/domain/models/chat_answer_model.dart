@@ -7,6 +7,7 @@ part 'chat_answer_model.g.dart';
 class ChatAnswerModel with _$ChatAnswerModel {
   const factory ChatAnswerModel({
     required String answerText,
+    @Default('') String originalQuestion,
   }) = _ChatAnswerModel;
 
   factory ChatAnswerModel.fromJson(Map<String, dynamic> json) =>

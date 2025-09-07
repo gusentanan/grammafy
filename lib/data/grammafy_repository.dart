@@ -18,7 +18,7 @@ class GrammafyRepository implements IGrammafyRepository {
     try {
       final response = await _networkDataSource.sendQuestion(question);
 
-      final chatAnswerModel = response.toChatAnswerModel();
+      final chatAnswerModel = response.toChatAnswerModel(question);
 
       return right(chatAnswerModel);
     } catch (e) {

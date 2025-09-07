@@ -10,10 +10,12 @@ _$ChatAnswerModelImpl _$$ChatAnswerModelImplFromJson(
         Map<String, dynamic> json) =>
     _$ChatAnswerModelImpl(
       answerText: json['answerText'] as String,
+      originalQuestion: json['originalQuestion'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$ChatAnswerModelImplToJson(
         _$ChatAnswerModelImpl instance) =>
     <String, dynamic>{
       'answerText': instance.answerText,
+      'originalQuestion': instance.originalQuestion,
     };

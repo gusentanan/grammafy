@@ -11,27 +11,35 @@ import 'package:grammafy/themes/grammafy_theme.dart';
 import 'package:grammafy/utils/styles_utils.dart';
 
 void main() async {
-  setStatusBar();
   BlocOverrides.runZoned(
-    () => runGramamfyApp(),
+    () => _runGrammafyApp(),
     blocObserver: GrammafyBlocObserver(),
   );
 }
 
-void runGramamfyApp() async {
+void _runGrammafyApp() async {
   WidgetsFlutterBinding.ensureInitialized();
+  setStatusBar();
+  
+  // Move heavy initialization off main thread where possible
+  await _initializeApp();
+  
+  runApp(const GrammafyApp());
+}
 
+Future<void> _initializeApp() async {
+  // Load environment variables
   await dotenv.load();
+  
+  // Configure dependency injection
   configureInjection();
-
-  await ScreenUtil.ensureScreenSize();
-
-  // lock screen orientation
+  
+  // Set screen orientation (this is lightweight)
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-
-  return runApp(const GrammafyApp());
+  
+  // Note: ScreenUtil.ensureScreenSize() moved to app initialization
 }
 
 class GrammafyApp extends StatelessWidget {

@@ -3,11 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:grammafy/domain/models/chat_answer_model.dart';
 import 'package:grammafy/presentation/home/state/home_page_cubit.dart';
 import 'package:grammafy/themes/base_colors.dart';
 import 'package:grammafy/themes/base_text_style.dart';
 import 'package:grammafy/utils/extensions.dart';
+import 'package:grammafy/widgets/action_button.dart';
+import 'package:grammafy/widgets/chip.dart';
 import 'package:grammafy/widgets/error.dart';
 import 'package:grammafy/widgets/loading.dart';
 import 'package:grammafy/widgets/snackbar.dart';
@@ -25,6 +28,16 @@ class _HomePageState extends State<HomePageView> {
   final ScrollController _scrollController = ScrollController();
   final FocusNode _focusNode = FocusNode();
   final List<Widget> _messages = [];
+  final List<GlobalKey<_AnswerWidgetState>> _answerKeys = [];
+
+  // Cache the gradient to avoid recalculating on every build
+  late final Shader _textGradient = LinearGradient(
+    colors: [
+      BaseColors.primaryColor,
+      BaseColors.primaryColor.withOpacity(0.2),
+      BaseColors.neutralColor,
+    ],
+  ).createShader(const Rect.fromLTWH(0.0, 0.0, 250.0, 60.0));
 
   void _scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -46,14 +59,6 @@ class _HomePageState extends State<HomePageView> {
 
   @override
   Widget build(BuildContext context) {
-    final Shader textGradient = LinearGradient(
-      colors: [
-        BaseColors.primaryColor,
-        BaseColors.primaryColor.withOpacity(0.2),
-        BaseColors.neutralColor,
-      ],
-    ).createShader(const Rect.fromLTWH(0.0, 0.0, 250.0, 60.0));
-
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -62,17 +67,27 @@ class _HomePageState extends State<HomePageView> {
           text: TextSpan(
               text: 'Grammafy',
               style: BaseTextStyle.displayLarge
-                  .copyWith(foreground: Paint()..shader = textGradient)),
+                  .copyWith(foreground: Paint()..shader = _textGradient)),
         ),
       ),
       body: BlocListener<HomePageCubit, HomePageState>(
         listener: (context, state) {
           state.maybeWhen(
             success: (answer) {
-              setState(() {
-                _scrollToBottom();
-                _messages.add(_answerComponent(answer));
-              });
+              // Check if this is a refresh (update existing) or new question (add new)
+              bool isRefresh = _answerKeys.isNotEmpty && 
+                  _answerKeys.last.currentState?.currentAnswer.originalQuestion == answer.originalQuestion;
+              
+              if (isRefresh) {
+                // Update existing answer widget
+                _answerKeys.last.currentState?.updateAnswer(answer);
+              } else {
+                // Add new answer widget
+                setState(() {
+                  _scrollToBottom();
+                  _messages.add(_answerComponent(answer));
+                });
+              }
             },
             failure: (failure) {
               setState(() {
@@ -156,44 +171,17 @@ class _HomePageState extends State<HomePageView> {
   }
 
   Widget _answerComponent(ChatAnswerModel answer) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TypingText(text: answer.answerText),
-        SizedBox(height: 32.h),
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: SvgPicture.asset('assets/images/logo.svg',
-                  width: 60.w, height: 60.h),
-            ),
-            IconButton(
-              onPressed: () {
-                String answers = answer.answerText.trimFirstLine();
-                Clipboard.setData(ClipboardData(text: answers)).then((_) {
-                  SnackbarWidget.show(
-                    context: context,
-                    type: SnackbarType.DEFAULT,
-                    text: 'Copied to clipboard',
-                    icon: Icons.check_circle_outline,
-                    alignment: SnackbarAlignment.TOP,
-                  );
-                });
-              },
-              icon: Icon(Icons.copy_all_outlined, color: BaseColors.pmaBold),
-            ),
-            const Spacer(),
-            Text(
-              'Grammafy can make mistakes.\nPlease double-check',
-              style: BaseTextStyle.bodySmall.copyWith(
-                color: BaseColors.neutralColor,
-                fontSize: 30.sp,
-              ),
-            ),
-          ],
-        ),
-      ],
+    final key = GlobalKey<_AnswerWidgetState>();
+    _answerKeys.add(key);
+    
+    return _AnswerWidget(
+      key: key,
+      answer: answer,
+      onRefresh: (refreshAnswer) {
+        context
+            .read<HomePageCubit>()
+            .sendQuestion(refreshAnswer.originalQuestion);
+      },
     );
   }
 
@@ -292,19 +280,110 @@ class _HomePageState extends State<HomePageView> {
                 ),
               ],
             ),
-            // const SizedBox(height: 10),
-            // Row(
-            //   children: [
-            //     const ToneChip(subjectName: 'Formal'),
-            //     SizedBox(width: 20.w),
-            //     const ToneChip(subjectName: 'Semi-formal'),
-            //     SizedBox(width: 20.w),
-            //     const ToneChip(subjectName: 'Friendly'),
-            //   ],
-            // ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                const ToneChip(subjectName: 'Formal'),
+                SizedBox(width: 20.w),
+                const ToneChip(subjectName: 'Semi-formal'),
+                SizedBox(width: 20.w),
+                const ToneChip(subjectName: 'Friendly'),
+              ],
+            ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _AnswerWidget extends StatefulWidget {
+  final ChatAnswerModel answer;
+  final Function(ChatAnswerModel) onRefresh;
+
+  const _AnswerWidget({
+    super.key,
+    required this.answer,
+    required this.onRefresh,
+  });
+
+  @override
+  State<_AnswerWidget> createState() => _AnswerWidgetState();
+}
+
+class _AnswerWidgetState extends State<_AnswerWidget> {
+  late ChatAnswerModel currentAnswer;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    currentAnswer = widget.answer;
+  }
+
+  void updateAnswer(ChatAnswerModel newAnswer) {
+    setState(() {
+      currentAnswer = newAnswer;
+      isLoading = false;
+    });
+  }
+
+  void startLoading() {
+    setState(() {
+      isLoading = true;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        isLoading
+            ? const SizedBox.shrink()
+            : TypingText(text: currentAnswer.answerText),
+        SizedBox(height: 42.h),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            ActionButton(
+              icon: Icons.copy_all_outlined,
+              onTap: () {
+                String answers = currentAnswer.answerText.trimFirstLine();
+                Clipboard.setData(ClipboardData(text: answers)).then((_) {
+                  SnackbarWidget.show(
+                    context: context,
+                    type: SnackbarType.DEFAULT,
+                    text: 'Copied to clipboard',
+                    icon: Icons.check_circle_outline,
+                    alignment: SnackbarAlignment.TOP,
+                  );
+                });
+              },
+              padding: EdgeInsets.zero,
+            ),
+            SizedBox(width: 42.w),
+            ActionButton(
+              icon: Icons.share,
+              onTap: () {
+                String answers = currentAnswer.answerText.trimFirstLine();
+                Share.share(answers,
+                    subject: 'Grammar correction from Grammafy');
+              },
+              padding: EdgeInsets.zero,
+            ),
+            SizedBox(width: 42.w),
+            ActionButton(
+              icon: Icons.refresh,
+              onTap: () {
+                startLoading();
+                widget.onRefresh(currentAnswer);
+              },
+              padding: EdgeInsets.zero,
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
