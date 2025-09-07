@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:grammafy/data/network_data_sources/dto/answer/chat_response_model.dart';
 import 'package:grammafy/data/network_data_sources/dto/question/chat_model.dart';
+import 'package:grammafy/domain/models/tone_type.dart';
 import 'package:grammafy/utils/constant.dart';
 import 'package:injectable/injectable.dart';
 
@@ -10,10 +11,12 @@ class NetworkDataSource {
 
   NetworkDataSource(@Named('defaultDio') this._dio);
 
-  Future<ChatResponseModel> sendQuestion(String question) async {
+  Future<ChatResponseModel> sendQuestion(String question, ToneType tone) async {
+    final instruction = getInstructionForTone(tone);
+    
     final chatModel = ChatModel(
-      systemInstruction: const InstructionModel(
-        parts: PartModel(text: MODEL_INSTRUCTION),
+      systemInstruction: InstructionModel(
+        parts: PartModel(text: instruction),
       ),
       contents: [
         ContentModel(

@@ -16,28 +16,31 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$HomePageState {
+  ToneType get selectedTone => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(ChatAnswerModel answer) success,
-    required TResult Function(AppFailure failure) failure,
+    required TResult Function(ToneType selectedTone) initial,
+    required TResult Function(ToneType selectedTone) loading,
+    required TResult Function(ChatAnswerModel answer, ToneType selectedTone)
+        success,
+    required TResult Function(AppFailure failure, ToneType selectedTone)
+        failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(ChatAnswerModel answer)? success,
-    TResult? Function(AppFailure failure)? failure,
+    TResult? Function(ToneType selectedTone)? initial,
+    TResult? Function(ToneType selectedTone)? loading,
+    TResult? Function(ChatAnswerModel answer, ToneType selectedTone)? success,
+    TResult? Function(AppFailure failure, ToneType selectedTone)? failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(ChatAnswerModel answer)? success,
-    TResult Function(AppFailure failure)? failure,
+    TResult Function(ToneType selectedTone)? initial,
+    TResult Function(ToneType selectedTone)? loading,
+    TResult Function(ChatAnswerModel answer, ToneType selectedTone)? success,
+    TResult Function(AppFailure failure, ToneType selectedTone)? failure,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -66,6 +69,10 @@ mixin _$HomePageState {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $HomePageStateCopyWith<HomePageState> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -73,6 +80,8 @@ abstract class $HomePageStateCopyWith<$Res> {
   factory $HomePageStateCopyWith(
           HomePageState value, $Res Function(HomePageState) then) =
       _$HomePageStateCopyWithImpl<$Res, HomePageState>;
+  @useResult
+  $Res call({ToneType selectedTone});
 }
 
 /// @nodoc
@@ -84,13 +93,30 @@ class _$HomePageStateCopyWithImpl<$Res, $Val extends HomePageState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? selectedTone = null,
+  }) {
+    return _then(_value.copyWith(
+      selectedTone: null == selectedTone
+          ? _value.selectedTone
+          : selectedTone // ignore: cast_nullable_to_non_nullable
+              as ToneType,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
-abstract class _$$InitialImplCopyWith<$Res> {
+abstract class _$$InitialImplCopyWith<$Res>
+    implements $HomePageStateCopyWith<$Res> {
   factory _$$InitialImplCopyWith(
           _$InitialImpl value, $Res Function(_$InitialImpl) then) =
       __$$InitialImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({ToneType selectedTone});
 }
 
 /// @nodoc
@@ -100,60 +126,88 @@ class __$$InitialImplCopyWithImpl<$Res>
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? selectedTone = null,
+  }) {
+    return _then(_$InitialImpl(
+      selectedTone: null == selectedTone
+          ? _value.selectedTone
+          : selectedTone // ignore: cast_nullable_to_non_nullable
+              as ToneType,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$InitialImpl extends _Initial {
-  const _$InitialImpl() : super._();
+  const _$InitialImpl({this.selectedTone = ToneType.neutral}) : super._();
+
+  @override
+  @JsonKey()
+  final ToneType selectedTone;
 
   @override
   String toString() {
-    return 'HomePageState.initial()';
+    return 'HomePageState.initial(selectedTone: $selectedTone)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$InitialImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$InitialImpl &&
+            (identical(other.selectedTone, selectedTone) ||
+                other.selectedTone == selectedTone));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, selectedTone);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
+      __$$InitialImplCopyWithImpl<_$InitialImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(ChatAnswerModel answer) success,
-    required TResult Function(AppFailure failure) failure,
+    required TResult Function(ToneType selectedTone) initial,
+    required TResult Function(ToneType selectedTone) loading,
+    required TResult Function(ChatAnswerModel answer, ToneType selectedTone)
+        success,
+    required TResult Function(AppFailure failure, ToneType selectedTone)
+        failure,
   }) {
-    return initial();
+    return initial(selectedTone);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(ChatAnswerModel answer)? success,
-    TResult? Function(AppFailure failure)? failure,
+    TResult? Function(ToneType selectedTone)? initial,
+    TResult? Function(ToneType selectedTone)? loading,
+    TResult? Function(ChatAnswerModel answer, ToneType selectedTone)? success,
+    TResult? Function(AppFailure failure, ToneType selectedTone)? failure,
   }) {
-    return initial?.call();
+    return initial?.call(selectedTone);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(ChatAnswerModel answer)? success,
-    TResult Function(AppFailure failure)? failure,
+    TResult Function(ToneType selectedTone)? initial,
+    TResult Function(ToneType selectedTone)? loading,
+    TResult Function(ChatAnswerModel answer, ToneType selectedTone)? success,
+    TResult Function(AppFailure failure, ToneType selectedTone)? failure,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial();
+      return initial(selectedTone);
     }
     return orElse();
   }
@@ -197,15 +251,26 @@ class _$InitialImpl extends _Initial {
 }
 
 abstract class _Initial extends HomePageState {
-  const factory _Initial() = _$InitialImpl;
+  const factory _Initial({final ToneType selectedTone}) = _$InitialImpl;
   const _Initial._() : super._();
+
+  @override
+  ToneType get selectedTone;
+  @override
+  @JsonKey(ignore: true)
+  _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$LoadingImplCopyWith<$Res> {
+abstract class _$$LoadingImplCopyWith<$Res>
+    implements $HomePageStateCopyWith<$Res> {
   factory _$$LoadingImplCopyWith(
           _$LoadingImpl value, $Res Function(_$LoadingImpl) then) =
       __$$LoadingImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({ToneType selectedTone});
 }
 
 /// @nodoc
@@ -215,60 +280,88 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? selectedTone = null,
+  }) {
+    return _then(_$LoadingImpl(
+      selectedTone: null == selectedTone
+          ? _value.selectedTone
+          : selectedTone // ignore: cast_nullable_to_non_nullable
+              as ToneType,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$LoadingImpl extends _Loading {
-  const _$LoadingImpl() : super._();
+  const _$LoadingImpl({this.selectedTone = ToneType.neutral}) : super._();
+
+  @override
+  @JsonKey()
+  final ToneType selectedTone;
 
   @override
   String toString() {
-    return 'HomePageState.loading()';
+    return 'HomePageState.loading(selectedTone: $selectedTone)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$LoadingImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$LoadingImpl &&
+            (identical(other.selectedTone, selectedTone) ||
+                other.selectedTone == selectedTone));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, selectedTone);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith =>
+      __$$LoadingImplCopyWithImpl<_$LoadingImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(ChatAnswerModel answer) success,
-    required TResult Function(AppFailure failure) failure,
+    required TResult Function(ToneType selectedTone) initial,
+    required TResult Function(ToneType selectedTone) loading,
+    required TResult Function(ChatAnswerModel answer, ToneType selectedTone)
+        success,
+    required TResult Function(AppFailure failure, ToneType selectedTone)
+        failure,
   }) {
-    return loading();
+    return loading(selectedTone);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(ChatAnswerModel answer)? success,
-    TResult? Function(AppFailure failure)? failure,
+    TResult? Function(ToneType selectedTone)? initial,
+    TResult? Function(ToneType selectedTone)? loading,
+    TResult? Function(ChatAnswerModel answer, ToneType selectedTone)? success,
+    TResult? Function(AppFailure failure, ToneType selectedTone)? failure,
   }) {
-    return loading?.call();
+    return loading?.call(selectedTone);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(ChatAnswerModel answer)? success,
-    TResult Function(AppFailure failure)? failure,
+    TResult Function(ToneType selectedTone)? initial,
+    TResult Function(ToneType selectedTone)? loading,
+    TResult Function(ChatAnswerModel answer, ToneType selectedTone)? success,
+    TResult Function(AppFailure failure, ToneType selectedTone)? failure,
     required TResult orElse(),
   }) {
     if (loading != null) {
-      return loading();
+      return loading(selectedTone);
     }
     return orElse();
   }
@@ -312,17 +405,26 @@ class _$LoadingImpl extends _Loading {
 }
 
 abstract class _Loading extends HomePageState {
-  const factory _Loading() = _$LoadingImpl;
+  const factory _Loading({final ToneType selectedTone}) = _$LoadingImpl;
   const _Loading._() : super._();
+
+  @override
+  ToneType get selectedTone;
+  @override
+  @JsonKey(ignore: true)
+  _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$SuccessImplCopyWith<$Res> {
+abstract class _$$SuccessImplCopyWith<$Res>
+    implements $HomePageStateCopyWith<$Res> {
   factory _$$SuccessImplCopyWith(
           _$SuccessImpl value, $Res Function(_$SuccessImpl) then) =
       __$$SuccessImplCopyWithImpl<$Res>;
+  @override
   @useResult
-  $Res call({ChatAnswerModel answer});
+  $Res call({ChatAnswerModel answer, ToneType selectedTone});
 
   $ChatAnswerModelCopyWith<$Res> get answer;
 }
@@ -339,12 +441,17 @@ class __$$SuccessImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? answer = null,
+    Object? selectedTone = null,
   }) {
     return _then(_$SuccessImpl(
       null == answer
           ? _value.answer
           : answer // ignore: cast_nullable_to_non_nullable
               as ChatAnswerModel,
+      selectedTone: null == selectedTone
+          ? _value.selectedTone
+          : selectedTone // ignore: cast_nullable_to_non_nullable
+              as ToneType,
     ));
   }
 
@@ -360,14 +467,18 @@ class __$$SuccessImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SuccessImpl extends _Success {
-  const _$SuccessImpl(this.answer) : super._();
+  const _$SuccessImpl(this.answer, {this.selectedTone = ToneType.neutral})
+      : super._();
 
   @override
   final ChatAnswerModel answer;
+  @override
+  @JsonKey()
+  final ToneType selectedTone;
 
   @override
   String toString() {
-    return 'HomePageState.success(answer: $answer)';
+    return 'HomePageState.success(answer: $answer, selectedTone: $selectedTone)';
   }
 
   @override
@@ -375,11 +486,13 @@ class _$SuccessImpl extends _Success {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SuccessImpl &&
-            (identical(other.answer, answer) || other.answer == answer));
+            (identical(other.answer, answer) || other.answer == answer) &&
+            (identical(other.selectedTone, selectedTone) ||
+                other.selectedTone == selectedTone));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, answer);
+  int get hashCode => Object.hash(runtimeType, answer, selectedTone);
 
   @JsonKey(ignore: true)
   @override
@@ -390,36 +503,38 @@ class _$SuccessImpl extends _Success {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(ChatAnswerModel answer) success,
-    required TResult Function(AppFailure failure) failure,
+    required TResult Function(ToneType selectedTone) initial,
+    required TResult Function(ToneType selectedTone) loading,
+    required TResult Function(ChatAnswerModel answer, ToneType selectedTone)
+        success,
+    required TResult Function(AppFailure failure, ToneType selectedTone)
+        failure,
   }) {
-    return success(answer);
+    return success(answer, selectedTone);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(ChatAnswerModel answer)? success,
-    TResult? Function(AppFailure failure)? failure,
+    TResult? Function(ToneType selectedTone)? initial,
+    TResult? Function(ToneType selectedTone)? loading,
+    TResult? Function(ChatAnswerModel answer, ToneType selectedTone)? success,
+    TResult? Function(AppFailure failure, ToneType selectedTone)? failure,
   }) {
-    return success?.call(answer);
+    return success?.call(answer, selectedTone);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(ChatAnswerModel answer)? success,
-    TResult Function(AppFailure failure)? failure,
+    TResult Function(ToneType selectedTone)? initial,
+    TResult Function(ToneType selectedTone)? loading,
+    TResult Function(ChatAnswerModel answer, ToneType selectedTone)? success,
+    TResult Function(AppFailure failure, ToneType selectedTone)? failure,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(answer);
+      return success(answer, selectedTone);
     }
     return orElse();
   }
@@ -463,22 +578,28 @@ class _$SuccessImpl extends _Success {
 }
 
 abstract class _Success extends HomePageState {
-  const factory _Success(final ChatAnswerModel answer) = _$SuccessImpl;
+  const factory _Success(final ChatAnswerModel answer,
+      {final ToneType selectedTone}) = _$SuccessImpl;
   const _Success._() : super._();
 
   ChatAnswerModel get answer;
+  @override
+  ToneType get selectedTone;
+  @override
   @JsonKey(ignore: true)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$FailureImplCopyWith<$Res> {
+abstract class _$$FailureImplCopyWith<$Res>
+    implements $HomePageStateCopyWith<$Res> {
   factory _$$FailureImplCopyWith(
           _$FailureImpl value, $Res Function(_$FailureImpl) then) =
       __$$FailureImplCopyWithImpl<$Res>;
+  @override
   @useResult
-  $Res call({AppFailure failure});
+  $Res call({AppFailure failure, ToneType selectedTone});
 
   $AppFailureCopyWith<$Res> get failure;
 }
@@ -495,12 +616,17 @@ class __$$FailureImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? failure = null,
+    Object? selectedTone = null,
   }) {
     return _then(_$FailureImpl(
       null == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
               as AppFailure,
+      selectedTone: null == selectedTone
+          ? _value.selectedTone
+          : selectedTone // ignore: cast_nullable_to_non_nullable
+              as ToneType,
     ));
   }
 
@@ -516,14 +642,18 @@ class __$$FailureImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$FailureImpl extends _Failure {
-  const _$FailureImpl(this.failure) : super._();
+  const _$FailureImpl(this.failure, {this.selectedTone = ToneType.neutral})
+      : super._();
 
   @override
   final AppFailure failure;
+  @override
+  @JsonKey()
+  final ToneType selectedTone;
 
   @override
   String toString() {
-    return 'HomePageState.failure(failure: $failure)';
+    return 'HomePageState.failure(failure: $failure, selectedTone: $selectedTone)';
   }
 
   @override
@@ -531,11 +661,13 @@ class _$FailureImpl extends _Failure {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FailureImpl &&
-            (identical(other.failure, failure) || other.failure == failure));
+            (identical(other.failure, failure) || other.failure == failure) &&
+            (identical(other.selectedTone, selectedTone) ||
+                other.selectedTone == selectedTone));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, failure);
+  int get hashCode => Object.hash(runtimeType, failure, selectedTone);
 
   @JsonKey(ignore: true)
   @override
@@ -546,36 +678,38 @@ class _$FailureImpl extends _Failure {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(ChatAnswerModel answer) success,
-    required TResult Function(AppFailure failure) failure,
+    required TResult Function(ToneType selectedTone) initial,
+    required TResult Function(ToneType selectedTone) loading,
+    required TResult Function(ChatAnswerModel answer, ToneType selectedTone)
+        success,
+    required TResult Function(AppFailure failure, ToneType selectedTone)
+        failure,
   }) {
-    return failure(this.failure);
+    return failure(this.failure, selectedTone);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(ChatAnswerModel answer)? success,
-    TResult? Function(AppFailure failure)? failure,
+    TResult? Function(ToneType selectedTone)? initial,
+    TResult? Function(ToneType selectedTone)? loading,
+    TResult? Function(ChatAnswerModel answer, ToneType selectedTone)? success,
+    TResult? Function(AppFailure failure, ToneType selectedTone)? failure,
   }) {
-    return failure?.call(this.failure);
+    return failure?.call(this.failure, selectedTone);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(ChatAnswerModel answer)? success,
-    TResult Function(AppFailure failure)? failure,
+    TResult Function(ToneType selectedTone)? initial,
+    TResult Function(ToneType selectedTone)? loading,
+    TResult Function(ChatAnswerModel answer, ToneType selectedTone)? success,
+    TResult Function(AppFailure failure, ToneType selectedTone)? failure,
     required TResult orElse(),
   }) {
     if (failure != null) {
-      return failure(this.failure);
+      return failure(this.failure, selectedTone);
     }
     return orElse();
   }
@@ -619,10 +753,14 @@ class _$FailureImpl extends _Failure {
 }
 
 abstract class _Failure extends HomePageState {
-  const factory _Failure(final AppFailure failure) = _$FailureImpl;
+  const factory _Failure(final AppFailure failure,
+      {final ToneType selectedTone}) = _$FailureImpl;
   const _Failure._() : super._();
 
   AppFailure get failure;
+  @override
+  ToneType get selectedTone;
+  @override
   @JsonKey(ignore: true)
   _$$FailureImplCopyWith<_$FailureImpl> get copyWith =>
       throw _privateConstructorUsedError;

@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:grammafy/domain/models/chat_answer_model.dart';
+import 'package:grammafy/domain/models/tone_type.dart';
 import 'package:grammafy/presentation/home/state/home_page_cubit.dart';
 import 'package:grammafy/themes/base_colors.dart';
 import 'package:grammafy/themes/base_text_style.dart';
@@ -73,7 +74,7 @@ class _HomePageState extends State<HomePageView> {
       body: BlocListener<HomePageCubit, HomePageState>(
         listener: (context, state) {
           state.maybeWhen(
-            success: (answer) {
+            success: (answer, selectedTone) {
               // Check if this is a refresh (update existing) or new question (add new)
               bool isRefresh = _answerKeys.isNotEmpty && 
                   _answerKeys.last.currentState?.currentAnswer.originalQuestion == answer.originalQuestion;
@@ -89,7 +90,7 @@ class _HomePageState extends State<HomePageView> {
                 });
               }
             },
-            failure: (failure) {
+            failure: (failure, selectedTone) {
               setState(() {
                 _messages.add(
                   const ErrorView(
@@ -117,8 +118,8 @@ class _HomePageState extends State<HomePageView> {
             BlocBuilder<HomePageCubit, HomePageState>(
               builder: (context, state) {
                 return state.maybeWhen(
-                  initial: () => _initialView(),
-                  loading: () => const LoadingView(),
+                  initial: (selectedTone) => _initialView(),
+                  loading: (selectedTone) => const LoadingView(),
                   orElse: () => const SizedBox.shrink(),
                 );
               },
@@ -281,14 +282,37 @@ class _HomePageState extends State<HomePageView> {
               ],
             ),
             const SizedBox(height: 10),
-            Row(
-              children: [
-                const ToneChip(subjectName: 'Formal'),
-                SizedBox(width: 20.w),
-                const ToneChip(subjectName: 'Semi-formal'),
-                SizedBox(width: 20.w),
-                const ToneChip(subjectName: 'Friendly'),
-              ],
+            BlocBuilder<HomePageCubit, HomePageState>(
+              builder: (context, state) {
+                final selectedTone = state.when(
+                  initial: (selectedTone) => selectedTone,
+                  loading: (selectedTone) => selectedTone,
+                  success: (answer, selectedTone) => selectedTone,
+                  failure: (failure, selectedTone) => selectedTone,
+                );
+                
+                return Row(
+                  children: [
+                    ToneChip(
+                      subjectName: ToneType.formal.displayName,
+                      isSelected: selectedTone == ToneType.formal,
+                      onTap: () => context.read<HomePageCubit>().selectTone(ToneType.formal),
+                    ),
+                    SizedBox(width: 20.w),
+                    ToneChip(
+                      subjectName: ToneType.neutral.displayName,
+                      isSelected: selectedTone == ToneType.neutral,
+                      onTap: () => context.read<HomePageCubit>().selectTone(ToneType.neutral),
+                    ),
+                    SizedBox(width: 20.w),
+                    ToneChip(
+                      subjectName: ToneType.friendly.displayName,
+                      isSelected: selectedTone == ToneType.friendly,
+                      onTap: () => context.read<HomePageCubit>().selectTone(ToneType.friendly),
+                    ),
+                  ],
+                );
+              },
             ),
           ],
         ),
