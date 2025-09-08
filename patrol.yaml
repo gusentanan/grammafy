@@ -1,0 +1,83 @@
+# Patrol Configuration for Grammafy App
+# This file configures Patrol testing framework settings
+
+# Target platforms for testing
+flavor: null
+
+# Android configuration
+android:
+  package_name: com.example.grammafy
+
+# iOS configuration (for future iOS support)
+ios:
+  bundle_id: com.example.grammafy
+
+# Test configuration
+test:
+  # Timeout for individual tests (in seconds)
+  timeout: 60
+  
+  # Whether to take screenshots on test failure
+  screenshots_on_failure: true
+  
+  # Directory for test artifacts
+  artifacts_dir: test_artifacts
+
+# Integration test settings
+integration_test:
+  # Whether to run on real device or emulator
+  device_type: emulator
+  
+  # Emulator settings
+  emulator:
+    # Android emulator name (optional)
+    name: null
+    
+    # Wait for emulator to boot
+    wait_for_boot: true
+    
+    # Boot timeout in seconds
+    boot_timeout: 120
+
+# Logging configuration
+logging:
+  # Log level: trace, debug, info, warn, error
+  level: info
+  
+  # Enable verbose logging for debugging
+  verbose: false
+
+# Performance settings
+performance:
+  # Enable performance monitoring during tests
+  monitor: true
+  
+  # Collect memory usage statistics
+  memory_stats: true
+  
+  # Collect CPU usage statistics
+  cpu_stats: true
+
+# Custom settings for Grammafy app
+grammafy:
+  # Test data configuration
+  test_data:
+    # Sample text for grammar correction tests
+    sample_texts:
+      - "I are going to the store"
+      - "Me and him is meeting today"
+      - "This sentence has bad grammer"
+    
+    # Expected tone types
+    tone_types: ["formal", "neutral", "friendly"]
+  
+  # API testing configuration
+  api:
+    # Whether to use mock API during integration tests
+    use_mock: true
+    
+    # Timeout for API calls in tests
+    timeout: 30
+    
+    # Retry count for failed API calls
+    retry_count: 2
