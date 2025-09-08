@@ -44,7 +44,7 @@ dev_dependencies:
   auto_route_generator: ^7.3.2
   mockito: ^5.4.4
   mocktail: ^1.0.3
-  patrol_finders: ^2.7.2
+  patrol_finders: ^2.1.2
   patrol: ^3.10.0
 
 flutter:
