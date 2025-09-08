@@ -22,14 +22,19 @@ class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _CommonAppBarState extends State<CommonAppBar> {
-  // Cache the gradient to avoid recalculating on every build
-  late final Shader _textGradient = LinearGradient(
-    colors: [
-      BaseColors.primaryColor,
-      BaseColors.primaryColor.withOpacity(0.2),
-      BaseColors.neutralColor,
-    ],
-  ).createShader(const Rect.fromLTWH(0.0, 0.0, 250.0, 60.0));
+  Shader _createTextGradient() {
+    return LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        BaseColors.primaryColor,
+        BaseColors.primaryColor.withOpacity(0.8),
+        BaseColors.primaryColor.withOpacity(0.4),
+        BaseColors.primaryColor.withOpacity(0.1),
+      ],
+      stops: const [0.0, 0.3, 0.7, 1.0],
+    ).createShader(const Rect.fromLTWH(0.0, 0.0, 400.0, 100.0));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +44,7 @@ class _CommonAppBarState extends State<CommonAppBar> {
         text: TextSpan(
             text: widget.title,
             style: BaseTextStyle.displayLarge
-                .copyWith(foreground: Paint()..shader = _textGradient)),
+                .copyWith(foreground: Paint()..shader = _createTextGradient())),
       ),
       actions: [
         widget.enableAction
