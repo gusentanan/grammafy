@@ -16,10 +16,14 @@
 
 ## ✨ Features
 - ✅ One-tap grammar & tone correction using Google Gemini
-- 🔁 Custom template input & quick paste button
-- 📋 Copy corrected text instantly
+- 🎨 **Tone Selection**: Choose from Formal, Neutral, or Friendly correction styles
+- 🔁 Smart input field with auto-paste from clipboard
+- 📋 Copy corrected text instantly to clipboard
+- 💬 Chat-like interface with typing animations
+- 🔄 Refresh responses with different tones
 - 🔒 Privacy-first: no local or external data logging
-- 🛠️ Built with Flutter & Dart
+- 🏗️ Clean Architecture with dependency injection
+- 🧪 Comprehensive testing suite (unit, widget, integration)
 
 ## More About
 ```
@@ -34,18 +38,92 @@ You can delete all local data by clearing the app’s storage or uninstalling it
 ```
 
 ## 🛠 Tech Stack
-- Flutter (Dart)
-- Google Gemini GenAI
-- SonarCloud for code quality
+
+### Core Framework
+- **Flutter** (Dart) - Cross-platform mobile development
+- **Google Gemini GenAI** - AI-powered grammar correction
+
+### Architecture & State Management
+- **Clean Architecture** - Domain, Data, and Presentation layers
+- **BLoC/Cubit** - State management with flutter_bloc
+- **Dependency Injection** - get_it + injectable for IoC
+- **Functional Programming** - fpdart for error handling with Either monad
+
+### Code Generation & Tools
+- **Freezed** - Immutable models and state unions
+- **Auto Route** - Type-safe navigation
+- **JSON Serialization** - Automated model serialization
+- **Build Runner** - Code generation pipeline
+
+### Testing & Quality
+- **Patrol** - UI testing framework for integration tests
+- **Mockito/Mocktail** - Mocking for unit tests
+- **SonarCloud** - Code quality analysis and metrics
+- **Flutter Test** - Unit and widget testing
+
+## 🚀 Development & Setup
+
+### Prerequisites
+- Flutter SDK (>=3.3.0)
+- Dart SDK
+- Google Gemini API key
+
+### Getting Started
+1. Clone the repository
+2. Install dependencies: `flutter pub get`
+3. Generate code: `flutter packages pub run build_runner build`
+4. Set up your `.env` file with your Gemini API key
+5. Run the app: `flutter run`
+
+### Testing
+```bash
+# Run all tests
+flutter test
+
+# Run integration tests with Patrol
+flutter test integration_test/
+```
 
 ## 🧪 What's Next?
-- Tone/style selection (formal, casual, etc.)
+- ✅ ~~Tone/style selection (formal, casual, etc.)~~ **Implemented**
+- Settings page with developer information
 - Basic history & revision tracking
 - Custom prompt presets
+- Dark mode support
 - Android & iOS release builds
 
+## 📱 Architecture Overview
+
+### Clean Architecture Layers
+```
+Presentation Layer (UI + State Management)
+         ↓
+Domain Layer (Business Logic + Interfaces)
+         ↓
+Data Layer (Repository + Network)
+         ↓
+External APIs (Google Gemini)
+```
+
+### State Flow
+```
+HomePageView → HomePageCubit → IGrammafyRepository → NetworkDataSource → Gemini API
+```
+
+### Key Components
+- **HomePageCubit**: Manages UI state and business logic
+- **GrammafyRepository**: Implements domain repository interface
+- **NetworkDataSource**: Handles Gemini API communication
+- **ToneType**: Enum for correction style selection
+
 ## 🤝 Contribution
-Open to PRs, issues, and feedback.
-Feel free to fork or suggest improvements!
+Open to PRs, issues, and feedback. Feel free to fork or suggest improvements!
+
+### Development Guidelines
+- Follow Clean Architecture principles
+- Use BLoC for state management
+- Write comprehensive tests for new features
+- Generate code with `build_runner` after model changes
+- Maintain code quality with SonarCloud standards
 
 
